@@ -1,0 +1,23 @@
+{
+  "key": "group_key",
+  "title": "group_title",
+  "fields": [],
+  "location": [
+    [
+      {
+        "param": "never_show",
+        "operator": "=="
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "modified": 1724969739
+}

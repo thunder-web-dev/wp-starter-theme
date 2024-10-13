@@ -1,0 +1,9 @@
+// если вы хотите использовать sass-переменные - удалите root
+// colors
+:root {
+  // base
+  --font-family: "Font Example", sans-serif;   //  Здесь нужно подключить шрифт основного текста проекта
+  --content-width: 1110px;
+  --container-offset: 20px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+}

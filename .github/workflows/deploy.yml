@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build project
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy
+        run: |
+          set -eu
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.key }}" > "$HOME/.ssh/key"
+          chmod 600 "$HOME/.ssh/key"
+
+          rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" \
+            --archive --compress --delete \
+            --exclude={'**/.git*','package.json','package-lock.json','gulpfile.js','.editorconfig','node_modules/','.vscode/','.github/','.ecrc','.gitignore','.htmlhintrc','.stylelintrc.json','.stylelintignore','README.md','assets/src/','gulp/'} \
+            . drake48@drake48.beget.tech:/home/d/drake48/thunder-web.ru/public_html/
+
+      - name: Trigger upgrade
+        run: curl -s -o /dev/null -w '%{http_code}' 'https://site.dev.thunder-web.ru?run_upgrade'

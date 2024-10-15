@@ -7,6 +7,13 @@ use WP_Ajax_Upgrader_Skin;
 
 trait Helper {
 
+	// Удаление дефолтных WP сущностей
+	public static function remove_default_wp_entities() {
+		wp_delete_post( 1, true );
+		wp_delete_post( 2, true );
+		wp_delete_comment( 1, true );
+	}
+	
 	/**
 	 * По указанной ссылке устанавливает и активирует плагин.
 	 *
@@ -20,7 +27,19 @@ trait Helper {
 		include_once ABSPATH . 'wp-admin/includes/misc.php';
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		if ( is_plugin_active( $plugin_name ) ) {
+		if ( $plugin_name && is_plugin_active( $plugin_name ) ) {
+			error_log( print_r( "Плагин $plugin_name уже установлен и активен", true ) );
+
+			return;
+		}
+
+		if ( $plugin_name && file_exists( wp_normalize_path( WP_PLUGIN_DIR . '/' . $plugin_name ) ) ) {
+			error_log( print_r( "Плагин $plugin_name отключён и будет включён", true ) );
+			$result = activate_plugin( $plugin_name );
+			if ( is_wp_error( $result ) ) {
+				error_log( print_r( $result->get_error_message(), true ) );
+			}
+
 			return;
 		}
 
@@ -95,5 +114,5 @@ trait Helper {
 		return $post_id;
 	}
 
-
 }
+

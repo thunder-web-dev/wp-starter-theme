@@ -10,6 +10,8 @@ namespace CustomTheme\Upgrade;
 
 class Functions_After {
 
+	use Helper;
+
 	public static function ver_1_0_1_once( array &$res ) {
 		// error_log( print_r( 'Functions_After', true ) );
 	}

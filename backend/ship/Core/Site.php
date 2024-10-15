@@ -1,7 +1,6 @@
 <?php
 
-
-namespace CustomTheme;
+namespace CustomTheme\Core;
 
 class Site {
 
@@ -10,7 +9,7 @@ class Site {
 	private $static_url;
 
 	private function __construct() {
-		$this->static_url = esc_url( get_template_directory_uri() . '/assets/build' );
+		$this->static_url = esc_url( get_template_directory_uri() . '/' . DIR_PATH_ASSETS . '/build' );
 	}
 
 	public static function getInstance(): Site {
@@ -38,7 +37,7 @@ class Site {
 	public function header( $args = [] ) {
 		$args = $this->normalize_template_args( $args );
 
-		$name = $args['tpl'] ?: '/parts/header/header.php';
+		$name = $args['tpl'] ?: '/commons/header/header.php';
 
 		do_action( 'get_header', $name, $args );
 
@@ -53,7 +52,7 @@ class Site {
 	public function footer( $args = [] ): void {
 		$args = $this->normalize_template_args( $args );
 
-		$name = $args['tpl'] ?: '/parts/footer/footer.php';
+		$name = $args['tpl'] ?: '/commons/footer/footer.php';
 
 		do_action( 'get_footer', $name, $args );
 
@@ -81,7 +80,7 @@ class Site {
 	public function template( $slug, $args = [] ): void {
 		$slug = wp_normalize_path(
 			trim(
-				str_replace( '.php', '', "/templates/$slug" ),
+				str_replace( '.php', '', "/" . DIR_PATH_TEMPLATES . "/$slug" ),
 				'/'
 			)
 		);
@@ -97,7 +96,7 @@ class Site {
 	 * @return void
 	 */
 	public function show_svg( $slug ): void {
-		$path = wp_normalize_path( get_template_directory() . "/assets/build/img/$slug" );
+		$path = wp_normalize_path( get_template_directory() . '/' . DIR_PATH_ASSETS . "/build/img/$slug" );
 
 		include $path;
 	}

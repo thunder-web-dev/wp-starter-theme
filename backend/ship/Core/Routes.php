@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomTheme;
+namespace CustomTheme\Core;
 
 new Routes();
 
@@ -61,7 +61,7 @@ class Routes {
 	public function locate_template( string $path ): string {
 		global $template;
 
-		$path = "templates/{$path}";
+		$path = DIR_PATH_TEMPLATES . "/{$path}";
 
 		// Проверяем наличие файла шаблона по указанному пути
 		if ( $new_template = locate_template( [ $path ] ) ) {

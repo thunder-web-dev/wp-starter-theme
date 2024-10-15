@@ -45,9 +45,18 @@ class ACF {
 	 * @return string
 	 */
 	public function set_dir_json_for_save(): string {
-		wp_mkdir_p( $this->json_dir_path );
+		$this->maybe_mkdir_for_json_files();
 
 		return $this->json_dir_path;
+	}
+
+	/**
+	 * Создаёт папку с json файлами, если её ещё нет.
+	 *
+	 * @return bool
+	 */
+	private function maybe_mkdir_for_json_files(): bool {
+		return wp_mkdir_p( $this->json_dir_path );
 	}
 
 	/**
@@ -77,6 +86,10 @@ class ACF {
 			\WP_CLI::error( 'Вы не ввели название группы полей или файла' );
 		}
 
+		if ( ! $this->maybe_mkdir_for_json_files() ) {
+			\WP_CLI::error( 'Папка для json файлов не создана.' );
+		}
+
 		$firstChar    = mb_substr( $group_name, 0, 1, 'UTF-8' );
 		$restOfString = mb_substr( $group_name, 1, null, 'UTF-8' );
 		$group_name   = mb_strtoupper( $firstChar, 'UTF-8' ) . $restOfString;
@@ -87,7 +100,7 @@ class ACF {
 		$json = file_get_contents( wp_normalize_path( __DIR__ . '/group_sample.json' ) );
 		$json = str_replace( [ 'group_key', 'group_title' ], [ $file_name, $group_name ], $json );
 
-		$path = wp_normalize_path( __DIR__ . "/groups-and-fields/$file_name.json" );
+		$path = wp_normalize_path( "$this->json_dir_path/$file_name.json" );
 
 		if ( file_exists( $path ) ) {
 			\WP_CLI::confirm( 'Вы уверены, что хотите перезаписать файл?', $assoc_args );

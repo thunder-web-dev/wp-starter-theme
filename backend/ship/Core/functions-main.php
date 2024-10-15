@@ -1,7 +1,7 @@
 <?php
 
-use CustomTheme\Helper;
-use CustomTheme\Site;
+use CustomTheme\Core\Helper;
+use CustomTheme\Core\Site;
 
 function ct(): Site {
 	return Site::getInstance();

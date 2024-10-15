@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomTheme;
+namespace CustomTheme\Core;
 
 class Helper {
 

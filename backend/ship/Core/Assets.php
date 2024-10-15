@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomTheme;
+namespace CustomTheme\Core;
 
 new Assets();
 
@@ -20,12 +20,12 @@ class Assets {
 		// $this->attach_script( '/assets/build/libraries/fancybox/fancybox.umd.js', [ 'jquery' ] );
 		// $this->attach_style( '/assets/build/libraries/fancybox/fancybox.css' );
 
-		$this->attach_style( '/assets/build/css/main.css' );
-		$this->attach_script( '/assets/build/js/main.js', [ 'jquery' ] );
+		$this->attach_style( '/build/css/main.css' );
+		$this->attach_script( '/build/js/main.js' );
 
 		// @see assets/temp/README.md
-		$this->attach_style( '/assets/temp/temp.css' );
-		$this->attach_script( '/assets/temp/temp.js', [ 'jquery' ] );
+		$this->attach_style( '/temp/temp.css' );
+		$this->attach_script( '/temp/temp.js' );
 	}
 
 	private function attach_style( $path, $deps = [] ) {
@@ -44,16 +44,20 @@ class Assets {
 		return $handle;
 	}
 
-	private function get_handle( $path ) {
+	private function get_handle( string $path ) {
 		return sanitize_title( $path );
 	}
 
 	private function get_url( $path ) {
-		return wp_normalize_path( get_theme_file_uri( $path ) );
+		return $this->is_local( $path ) ? wp_normalize_path( get_theme_file_uri( DIR_PATH_ASSETS . $path ) ) : $path;
 	}
 
 	private function get_ver( $path ) {
-		return filemtime( get_theme_file_path( $path ) );
+		return $this->is_local( $path ) ? filemtime( get_theme_file_path( DIR_PATH_ASSETS . $path ) ) : '';
+	}
+
+	private function is_local( string $path ): bool {
+		return ! str_starts_with( $path, 'http' );
 	}
 
 }

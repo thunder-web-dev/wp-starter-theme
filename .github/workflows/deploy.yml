@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    if: false # Эта строка запрещает автодеплой. Удалите, чтобы вернуть этот функционал
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

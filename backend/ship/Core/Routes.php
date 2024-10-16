@@ -34,18 +34,21 @@ class Routes {
 		/***************
 		 *** Частные ***
 		 ***************/
-		if ( is_front_page() ) {
-			// return $this->locate_template( 'front-page/front-page.php' );
-		}
-
-		if ( is_404() ) {
-			// return $this->locate_template( 'page-404/page-404.php' );
-		}
 
 		/***************
 		 *** Общие ***
 		 ***************/
+		if ( is_front_page() ) {
+			return $this->locate_template( 'front-page/front-page.php' );
+		}
 
+		if ( is_404() ) {
+			return $this->locate_template( 'page-404/page-404.php' );
+		}
+
+		if ( is_page() ) {
+			return $this->locate_template( 'page-default/page-default.php' );
+		}
 
 		return $template;
 	}
@@ -61,7 +64,7 @@ class Routes {
 	public function locate_template( string $path ): string {
 		global $template;
 
-		$path = DIR_PATH_TEMPLATES . "/{$path}";
+		$path = DIR_PATH_TEMPLATES . "/$path";
 
 		// Проверяем наличие файла шаблона по указанному пути
 		if ( $new_template = locate_template( [ $path ] ) ) {

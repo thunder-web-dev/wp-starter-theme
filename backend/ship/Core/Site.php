@@ -32,9 +32,9 @@ class Site {
 	/**
 	 * Подключает шаблон хедера сайта.
 	 *
-	 * @param array|string[] $args
+	 * @param array|string $args
 	 */
-	public function header( $args = [] ) {
+	public function header( $args = [] ): void {
 		$args = $this->normalize_template_args( $args );
 
 		$name = $args['tpl'] ?: '/commons/header/header.php';
@@ -47,7 +47,7 @@ class Site {
 	/**
 	 * Подключает шаблон футера сайта.
 	 *
-	 * @param array|string[] $args
+	 * @param array|string $args
 	 */
 	public function footer( $args = [] ): void {
 		$args = $this->normalize_template_args( $args );

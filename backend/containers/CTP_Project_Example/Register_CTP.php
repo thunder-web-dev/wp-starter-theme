@@ -56,8 +56,8 @@ class Register_CTP {
 			'show_in_rest'       => false,
 			'supports'           => [ 'title', 'editor' ],
 			'menu_icon'          => 'dashicons-awards',
-			'template_item'      => "/templates/ctp-project/single/project-single.php",
-			'template_archive'   => '/templates/ctp-project/archive/project-archive.php',
+			'template_item'      => DIR_PATH_TEMPLATES . "/ctp-project/single/project-single.php",
+			'template_archive'   => DIR_PATH_TEMPLATES . '/ctp-project/archive/project-archive.php',
 			'posts_per_page'     => - 1,
 		] );
 	}

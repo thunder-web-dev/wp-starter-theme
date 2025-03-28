@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $vw-viewport: 1920;
 
 @function get-vw($target) {

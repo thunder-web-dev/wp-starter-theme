@@ -1,10 +1,10 @@
-/* stylelint-disable scss/at-import-partial-extension */
+/* stylelint-disable scss/at-forward-partial-extension */
 // базовые подключения
 @use "sass:math";
 
-@import "vars";
-@import "mixins";
-@import "fonts";
-@import "settings";
-@import "./components/*.scss";
-@import "./pages/*/*.scss";
+@forward "vars";
+@forward "mixins";
+@forward "fonts";
+@forward "settings";
+@forward "./components/*";
+@forward "./pages/*/*";

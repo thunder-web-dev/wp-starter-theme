@@ -88,6 +88,23 @@ class Site {
 		get_template_part( $slug, null, $args );
 	}
 
+	public function abs_template( $dir, $slug, $args = [] ): void {
+		$dir = str_replace(
+			wp_normalize_path( get_theme_file_path() . '/' . DIR_PATH_TEMPLATES ),
+			'',
+			wp_normalize_path( $dir )
+		);
+
+		$slug = wp_normalize_path(
+			trim(
+				str_replace( '.php', '', "/" . DIR_PATH_TEMPLATES . "/$dir/$slug" ),
+				'/'
+			)
+		);
+
+		get_template_part( $slug, null, $args );
+	}
+
 	/**
 	 * Выводит на экран содержимое SVG-файла.
 	 *

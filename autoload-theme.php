@@ -41,7 +41,7 @@ spl_autoload_register( static function ( $class ) {
  * @param string[] $glog_paths
  */
 function include_modules_files( array $glog_paths ) {
-	$glog_paths = array_map( function ( $path ) {
+	$glog_paths = array_map( static function ( $path ) {
 		return wp_normalize_path( __DIR__ . '/' . DIR_NAME_BACKEND . '/' . $path );
 	}, $glog_paths );
 	$paths      = array_merge( ...array_map( 'glob', $glog_paths ) );

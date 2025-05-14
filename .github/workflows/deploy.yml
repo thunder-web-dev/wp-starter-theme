@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Установить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16.15.1"
+
       - name: Build project
         run: |
           npm ci
@@ -21,7 +26,7 @@ jobs:
       - name: Deploy
         run: |
           set -eu
-          mkdir "$HOME/.ssh"
+          mkdir -p "$HOME/.ssh"
           echo "${{ secrets.key }}" > "$HOME/.ssh/key"
           chmod 600 "$HOME/.ssh/key"
 

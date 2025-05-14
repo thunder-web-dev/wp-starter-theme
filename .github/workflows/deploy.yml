@@ -4,19 +4,35 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      deploy-branch:
+        type: string
+        description: Branch name for deploy to Prod
+        default: main
+        required: true
 
 jobs:
   deploy:
-    if: false # Эта строка запрещает автодеплой. Удалите, чтобы вернуть этот функционал
+	  if: false # Эта строка запрещает автодеплой. Удалите, чтобы вернуть этот функционал
     runs-on: ubuntu-latest
+    env:
+      SSH_USER: drake48
+      SSH_HOST: drake48.beget.tech
+      REMOTE_THEME_PATH: /home/d/drake48/thunder-web.ru/public_html/project/wp-content/themes/wp-theme-project #  Путь к папке выгрузки
+      REMOTE_SITE_URL: project.dev.thunder-web.ru  # Без протокола, на этот адрес "стучится" Updater
+      HTTP_AUTH_USER: thunderweb # Отредактируйте
+      HTTP_AUTH_PASS: thunderweb #
+      EXCLUDE_PATTERNS: '**/.git*,package.json,package-lock.json,gulpfile.js,.editorconfig,node_modules/,.vscode/,.github/,.ecrc,.gitignore,.htmlhintrc,.stylelintrc.json,.stylelintignore,README.md,assets/src/,gulp/'
+
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Установить Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "16.15.1"
 
       - name: Build project
         run: |
@@ -30,10 +46,38 @@ jobs:
           echo "${{ secrets.key }}" > "$HOME/.ssh/key"
           chmod 600 "$HOME/.ssh/key"
 
+          # Проверка и создание папки
+          ssh -p 22 -i "$HOME/.ssh/key" -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST" \
+            "mkdir -p '$REMOTE_THEME_PATH'"
+
           rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" \
             --archive --compress --delete \
-            --exclude={'**/.git*','package.json','package-lock.json','gulpfile.js','.editorconfig','node_modules/','.vscode/','.github/','.ecrc','.gitignore','.htmlhintrc','.stylelintrc.json','.stylelintignore','README.md','assets/src/','gulp/'} \
-            . drake48@drake48.beget.tech:/home/d/drake48/thunder-web.ru/public_html/
+            --exclude="{$EXCLUDE_PATTERNS}" \
+            ./ \
+            "$SSH_USER@$SSH_HOST:$REMOTE_THEME_PATH/"
 
-      - name: Trigger upgrade
-        run: curl -s -o /dev/null -w '%{http_code}' 'https://site.dev.thunder-web.ru?run_upgrade'
+      - name: Trigger upgrade (HTTPS/HTTP fallback)
+        run: |
+          set +e
+
+          # Пробуем HTTPS
+          if curl -s -o /dev/null --max-time 10 \
+             --user "$HTTP_AUTH_USER:$HTTP_AUTH_PASS" \
+             "https://$REMOTE_SITE_URL?run_upgrade"; then
+            echo "::notice::🟢 Upgrade triggered via HTTPS"
+            exit 0
+          fi
+
+          echo "::warning::🟡 HTTPS failed, trying HTTP..."
+
+          # Пробуем HTTP
+          if curl -s -o /dev/null --max-time 10 \
+             --user "$HTTP_AUTH_USER:$HTTP_AUTH_PASS" \
+             "http://$REMOTE_SITE_URL?run_upgrade"; then
+            echo "::notice::🟢 Upgrade triggered via HTTP"
+            exit 0
+          fi
+
+          echo "::error::🔴 Both HTTPS and HTTP failed"
+          exit 0
+        continue-on-error: true

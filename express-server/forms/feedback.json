@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "key": "user_name",
+      "name": "Ваше имя",
+      "required": true
+    },
+    {
+      "key": "user_phone",
+      "name": "Номер телефона",
+      "required": true
+    },
+    {
+      "key": "company_name",
+      "name": "Наименование компании",
+      "required": false
+    },
+    {
+      "key": "user_email",
+      "name": "Введите email",
+      "required": true,
+      "validateAs": "email"
+    }
+  ]
+}

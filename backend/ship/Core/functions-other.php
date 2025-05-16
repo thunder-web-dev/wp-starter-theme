@@ -49,3 +49,18 @@ add_action( 'admin_bar_menu', function ( \WP_Admin_Bar $wp_admin_bar ) {
 		] );
 	}
 }, 100 );
+
+/**
+ * Получает URL на изображение, обработанное плагином Kama Thumbnail Pro.
+ *
+ * @param array $args
+ * @param int   $image_id
+ *
+ * @return string
+ */
+function get_image_thumb_url( array $args, $image_id ): string {
+	return kama_thumb_src(
+		array_merge( [ 'no_stub' => false, ], $args ),
+		$image_id ?: 'no_photo'
+	);
+}

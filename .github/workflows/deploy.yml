@@ -50,7 +50,7 @@ jobs:
 
           rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" \
             --archive --compress --delete \
-            --exclude={'**/.git*','package.json','package-lock.json','gulpfile.js','.editorconfig','node_modules/','.vscode/','.github/','.ecrc','.gitignore','.htmlhintrc','.stylelintrc.json','.stylelintignore','README.md','assets/src/','gulp/,'express-server/'} \
+            --exclude={'**/.git*','package.json','package-lock.json','gulpfile.js','.editorconfig','node_modules/','.vscode/','.github/','.ecrc','.gitignore','.htmlhintrc','.stylelintrc.json','.stylelintignore','README.md','assets/src/','gulp/','express-server/'} \
             ./ \
             "$SSH_USER@$SSH_HOST:$REMOTE_THEME_PATH/"
 

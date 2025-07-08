@@ -23,8 +23,6 @@ jobs:
       REMOTE_SITE_URL: project.dev.thunder-web.ru  # Без протокола, на этот адрес "стучится" Updater
       HTTP_AUTH_USER: thunderweb # Отредактируйте
       HTTP_AUTH_PASS: thunderweb #
-      EXCLUDE_PATTERNS: '**/.git*,package.json,package-lock.json,gulpfile.js,.editorconfig,node_modules/,.vscode/,.github/,.ecrc,.gitignore,.htmlhintrc,.stylelintrc.json,.stylelintignore,README.md,assets/src/,gulp/'
-
     steps:
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -52,7 +50,7 @@ jobs:
 
           rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" \
             --archive --compress --delete \
-            --exclude="{$EXCLUDE_PATTERNS}" \
+            --exclude={'**/.git*','package.json','package-lock.json','gulpfile.js','.editorconfig','node_modules/','.vscode/','.github/','.ecrc','.gitignore','.htmlhintrc','.stylelintrc.json','.stylelintignore','README.md','assets/src/','gulp/,'express-server/'} \
             ./ \
             "$SSH_USER@$SSH_HOST:$REMOTE_THEME_PATH/"
 

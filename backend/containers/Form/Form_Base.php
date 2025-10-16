@@ -415,11 +415,11 @@ abstract class Form_Base {
 		return [
 			[
 				'key'  => 'form_name',
-				'name' => 'Имя форма',
+				'name' => 'Имя формы',
 			],
 			[
 				'key'  => 'form_key',
-				'name' => 'Ключ форма',
+				'name' => 'Ключ формы',
 			],
 			[
 				'key'  => 'page_referer',

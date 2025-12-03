@@ -211,7 +211,7 @@ abstract class Form_Base {
 		$emails  = $this->get_emails();
 		$subject = "Form: $this->form_name";
 		$headers = [
-			"From: E-mail logger <no-replay@$domain>",
+			"From: E-mail logger <no-reply@$domain>",
 			'content-type: text/html',
 		];
 		$message = '';

@@ -19,7 +19,7 @@ const watcher = () => {
   gulp.watch(app.paths.srcScss, styles);
   gulp.watch(app.paths.srcFullJs, scripts);
   gulp.watch(`${app.paths.resourcesFolder}/**`, resources);
-  gulp.watch(`${app.paths.srcImgFolder}/**/**.{jpg,jpeg,png,svg}`, images);
+  gulp.watch(`${app.paths.srcImgFolder}/**/*.{jpg,jpeg,png}`, images);
   gulp.watch(app.paths.srcSvg, svgSprites);
 }
 

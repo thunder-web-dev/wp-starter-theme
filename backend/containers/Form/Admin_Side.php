@@ -1,6 +1,7 @@
 <?php
 /**
  * @since 1.1 Проверка наличия модуля CSV и его запуск.
+ * @since 1.2 Добавлены хуки site_form_before_content и site_form_after_content.
  */
 
 namespace CustomTheme\Form;
@@ -83,9 +84,13 @@ class Admin_Side {
 			do_action( 'site_form_name', $post_id );
 		}
 
+		do_action( 'site_form_before_content', $colname, $post_id );
+
 		if ( $colname === 'form_content' ) {
 			do_action( 'site_form_content', $post_id );
 		}
+
+		do_action( 'site_form_after_content', $colname, $post_id );
 	}
 
 	/**

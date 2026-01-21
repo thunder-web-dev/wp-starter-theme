@@ -2,6 +2,7 @@
 /**
  * @since 1.1 Проверка наличия модуля CSV и его запуск.
  * @since 1.2 Добавлены хуки site_form_before_content и site_form_after_content.
+ * @since 1.3 Добавлены хуки site_form_before_styles и site_form_after_styles.
  */
 
 namespace CustomTheme\Form;
@@ -173,6 +174,8 @@ class Admin_Side {
 		if ( ! $this->is_page_admin_table() ) {
 			return;
 		}
+
+		do_action( 'site_form_before_styles', $this->post_type );
 		?>
 
 		<style>
@@ -208,6 +211,7 @@ class Admin_Side {
 		</style>
 
 		<?php
+		do_action( 'site_form_after_styles', $this->post_type );
 	}
 
 	/**

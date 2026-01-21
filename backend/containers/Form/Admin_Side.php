@@ -16,7 +16,7 @@ class Admin_Side {
 		add_filter( 'manage_' . $this->post_type . '_posts_columns', [ $this, 'register_columns' ], 11 );
 		add_action( 'manage_' . $this->post_type . '_posts_custom_column', [ $this, 'fill_columns' ], 5, 2 );
 		add_filter( 'post_date_column_status', [ $this, 'remove_date_column_post_status' ], 10, 2 );
-		add_action( 'admin_print_styles', [ $this, 'table_styles' ] );
+		add_action( 'admin_print_footer_scripts', [ $this, 'table_styles' ] );
 
 		add_action( 'restrict_manage_posts', [ $this, 'add_table_dropdown_forms' ] );
 		add_action( 'manage_posts_extra_tablenav', [ $this, 'add_btn_download_csv' ] );

@@ -342,7 +342,8 @@ abstract class Form_Base {
 			if ( isset( $field['callback_prepare'] ) && is_callable( $field['callback_prepare'] ) ) {
 				$value = call_user_func( $field['callback_prepare'], $request );
 			} else {
-				$value = trim( $request->get_param( $key ) );
+				$value = $request->get_param( $key );
+				$value = $value ? trim( $value ) : $value;
 			}
 
 			$data['fields'][ $key ] = $value;

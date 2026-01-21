@@ -3,6 +3,7 @@
  * @since 1.1 Проверка наличия модуля CSV и его запуск.
  * @since 1.2 Добавлены хуки site_form_before_content и site_form_after_content.
  * @since 1.3 Добавлены хуки site_form_before_styles и site_form_after_styles.
+ * @since 1.4 Добавлен хук site_form_admin_table_new_columns.
  */
 
 namespace CustomTheme\Form;
@@ -66,6 +67,8 @@ class Admin_Side {
 			'form_name'    => 'Название формы',
 			'form_content' => 'Сохраненные данные',
 		];
+
+		$new_columns = apply_filters( 'site_form_admin_table_new_columns', $new_columns );
 
 		return array_slice( $columns, 0, $num ) + $new_columns + array_slice( $columns, $num );
 	}
